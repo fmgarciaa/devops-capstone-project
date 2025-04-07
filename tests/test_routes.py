@@ -157,3 +157,11 @@ class TestAccountService(TestCase):
         self.assertEqual(updated_data["address"], updated_account.address)
         self.assertEqual(updated_data["phone_number"], updated_account.phone_number)
         self.assertEqual(updated_data["date_joined"], str(updated_account.date_joined))
+
+    def test_list_accounts(self):
+        """It should List all Accounts"""
+        self._create_accounts(5)
+        response = self.client.get(BASE_URL)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.get_json()
+        self.assertEqual(len(data), 5)
